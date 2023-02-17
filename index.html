@@ -1,36 +1,70 @@
 <!-- 
- Las media queries consisten de un tipo de medio opcional y una o más expresiones de características de medios. Varias consultas se pueden combinar utilizando operadores lógicos. No distinguen entre mayúsculas y minúsculas.
+@media:
+    La regla-at CSS @media asocia un grupo de declaraciones anidadas, en un bloque CSS delimitado por llaves, con una condición definida por un media query. La regla-at @media puede ser usada no solo en el nivel superior de la hoja de estilos, sino también dentro de cualquier grupo de reglas condicionales.
 
-El resultado de la consulta es "verdadero" cuando el tipo de medio (si se especifica) coincide con el dispositivo en el que se está mostrando el documento y todas las expresiones en el media query son "verdaderas". En este caso, se aplica los estilos correspondientes, siguiendo las reglas usuales de cascada.
+    UN EJEMPLO DEL EMPLEO DE @media seria:
+         @media = 
+             media <media-query-list> { <stylesheet> }  
 
-Se utilizan para:
-    -Aplicar estilos condicionales con las reglas-at @media e @import de CSS.
-    -Indicar medios específicos en los elementos <link>, <source> y otros elementos HTML.
-    -Testear y monitorizar los estados de los medios usando los métodos de javascript Window.matchMedia() y MediaQueryList.addListener().
+    Un <media-query> está compuesto por un tipo de medio opcional y/o un conjunto de características de medio.
 
-
---Media Types
-Los Media Types (tipos de medios) describen la categoría general de un dispositivo. Excepto cuando se utilizan los operadores lógicos not o only, el tipo de medio es opcional y será interpretada como all.
+Tipos de medios:
 
     -all
-        Apto para todos los dispositivos.
+        Aplicable a todos los dispositivos.
 
     -print
-        Destinado a material impreso y visualización de documentos en una 
-    pantalla en el modo de vista previa de impresión.
+        Destinado a material paginado y documentos visibles en una pantalla en modo de vista previa para impresión. Por favor, consulte la sección de medios paginados (en-US), y la sección de Media en el tutorial de Introducción para más información acerca de problemas de formateo específicos para los medios paginados.
 
-    -screen
-        Destinado principalmente a las pantallas.
+   -screen
+        Destinado a principalmente a pantallas de computadora a color.
 
-    -speech
-        Destinado a sintetizadores de voz.
+                                                    **Nota: CSS2.1 y Media Queries 3 definió varios tipos de media adicionales (tty, tv, projection, handheld, braille, embossed, aural, speech), pero fueron descontinuados en Media Queries 4 y no deben ser usados.**
 
 
---Operadores Lógicos
+Características de Medios (media feature)
+Cada característica de medios verifica una característica específica del navegador o dispositivo, ignorar el slash(/) al inicio de cada comando. **(COMO CONCEPTO QUE SE NECESITA PARA ENTENDER ESTO: Viewport es el área visible del usuario de un sitio web. La etiqueta meta viewport controla el ancho de la página dependiendo del dispositivo en el que se encuentre el usuario)**
+        /width:                          Anchura del viewport
+        /height:                         Altura del viewport
+        /aspect-ratio :   	             Relación de aspecto anchura-altura del viewport
+        /orientation : 	                 Orientación del viewport
+        /resolution: 	                 Densidad de pixeles del dispositivo 	
+        /scan: 	                         Proceso de escaneo del dispositivo
+        /update-frequency : 	         Qué tan rápido (si lo hace) puede el dispositivo modificar la apariencia del contenido
+        /overflow-block:                 Cómo maneja el dispositivo el contenido que excede los límites del viewport a lo largo del eje de bloque
+        /overflow-inline:                Se puede usar para probar cómo el dispositivo de salida maneja el contenido que desborda el bloque contenedor inicial a lo largo del eje en línea.
+        /color:                          Componente de número de bits por color del dispositivo, o cero si el dispositivo no es a color.
+        /color-index:                    Número de entradas en la tabla de búsqueda de color del dispositivo, o cero si el dispositivo no usa una tabla.
+        /display-mode:                   Modo de visualización de la aplicación, según se especifique en la propiedad display del manifiesto de la aplicación web.
+        /inverted-colors:                Esto creo que ni hace falta explicarlo.
+        /pointer:                        Comprueba si el usuario tiene un dispositivo de puntero (como el ratón), y si es así, cuán preciso es el dispositivo de puntero primario.
+        /hover:                          Puede ser utilizada para probar si el mecanismo de entrada primario de un usuario puede flotar sobre los elementos.
+        /any-pointer:                    Prueba si el usuario tiene algún dispositivo señalador (como un mouse) y, de ser así, qué tan preciso es.
+        /any-hover:                      Se puede usar para probar si cualquier mecanismo de entrada disponible puede pasar el mouse sobre los elementos.
+        /device-width:                   Se puede utilizar para probar el ancho de la superficie de representación de un dispositivo de salida.
+        /device-height:                  Se puede utilizar para probar la altura de la superficie de representación de un dispositivo de salida.
+        /device-aspect-ratio;            Se puede utilizar para probar la relación de aspecto ancho-alto de un dispositivo de salida.
+        /-webkit-device-pixel-ratio:     Es una función multimedia CSS booleana no estándar que es una alternativa a la función multimedia de resolución estándar.
+        /--webkit-transform-3d:          Es una extensión de WebKit cuyo valor es verdadero si se admiten las transformaciones 3D CSS prefijadas por el proveedor.
+        /-webkit-transform-2d:           Es una extensión de WebKit cuyo valor es verdadero si se admiten las transformaciones 2D CSS con prefijo del proveedor y las consultas de medios con prefijo del proveedor no estándar.
+        /--webkit-transition:           Es una extensión de WebKit cuyo valor es verdadero si el contexto de navegación admite transiciones CSS.
+        /--webkit-animation:            es una extensión de WebKit cuyo valor es verdadero si se admiten las animaciones CSS prefijadas por el proveedor.
 
-Se pueden redactar queries utilizando operadores lógicos, incluyendo not, and, y only.
-Además se puede combinar múltiples queries en una lista separada por comas múltiples; si cualquiera de las queries en la lista es verdadera, la hoja de estilo asociada es aplicada. Esto es equivalente a una operación lógica "or".
-and
-El operador and es usado para colocar juntas múltiples funciones multimedia. 
+Ejemplo de @media:
 
- -->
+        @media print {
+            body { font-size: 10pt }
+        }
+        @media screen {
+            body { font-size: 13px }
+        }
+        @media screen, print {
+            body { line-height: 1.2 }
+        }
+        @media only screen
+            and (min-device-width: 320px)
+            and (max-device-width: 480px)
+            and (-webkit-min-device-pixel-ratio: 2) {
+                body { line-height: 1.4 }
+        }
+
