@@ -1,105 +1,64 @@
 <!-- 
-@media:
-    La regla-at CSS @media asocia un grupo de declaraciones anidadas, en un bloque CSS delimitado por llaves, con una condición definida por un media query. La regla-at @media puede ser usada no solo en el nivel superior de la hoja de estilos, sino también dentro de cualquier grupo de reglas condicionales.
+    UNIDADES DE MEDIDA EN CSS:
+como definicion "breve"(trato de no extenderme pero sin dejar de lado algunos detalles jaja)tenemos que las unidades se dividen en dos grupos: absolutas y relativas. Básicamente las unidades absolutas definen su valor de forma concreta y determinada, por ejemplo el centímetro. En cambio las medidas relativas lo hacen tomando otro elemeto de referencia y a veces su contexto. En el caso del porcentaje, por ejemplo, cuando se indica sobre el valor width, éste se toma respecto del elemento contenedor. Es decir que, si tengo un contenedor que mide un ancho máximo de 1000 px y dentro coloco una <div> con un ancho de 25%, esta medida se tomará respecto de los 1000 px del contenedor, por lo tanto, en principio medirá 250px, pero si el contenedor se achica se achicará también
 
-    UN EJEMPLO DEL EMPLEO DE @media seria:
-         @media = 
-             media <media-query-list> { <stylesheet> }  
+    --Medidas absolutas:
 
-    Un <media-query> está compuesto por un tipo de medio opcional y/o un conjunto de características de medio.
+Su valor se encuentra definido en términos concretos y de manera medible. Esto quiere decir que no depende de otro valor de referencia, ni del contexto.
 
-Tipos de medios:
+mm: milímetros.
+cm: centímetros.
+in: pulgada ("inches", en inglés). Una pulgada equivale a 2.54 centímetros.
+pt: puntos. Un punto equivale a 1 /72 de pulgada, es decir, unos 0.35 milímetros.
+pc: picas. Una pica equivale a 12 puntos, o aproximadamente a 4.23 milímetros.
+px: pixel. Es la unidad mínima de resolución de la pantalla. En realidad suele considerársela una unidad absoluta, relativa o híbrida dependiendo del criterio que se analice.
+Si analizamos que el pixel es una división física de la pantalla podríamos decir que corresponde definirla como unidad absoluta. Sin embargo, en los diferentes dispositivos estos pixeles tienen variaciones de tamaño, que aunque son mínimas y a veces imperceptibles, dan pie a que algunos autores la consideren unidad relativa.
 
-    -all
-        Aplicable a todos los dispositivos.
-
-    -print
-        Destinado a material paginado y documentos visibles en una pantalla en modo de vista previa para impresión. Por favor, consulte la sección de medios paginados (en-US), y la sección de Media en el tutorial de Introducción para más información acerca de problemas de formateo específicos para los medios paginados.
-
-   -screen
-        Destinado a principalmente a pantallas de computadora a color.
-
-                                                    **Nota: CSS2.1 y Media Queries 3 definió varios tipos de media adicionales (tty, tv, projection, handheld, braille, embossed, aural, speech), pero fueron descontinuados en Media Queries 4 y no deben ser usados.**
+La principal ventaja de las unidades absolutas es que su valor es el que está expresado y el que se va a aplicar, no hay que hacer cálculos intermedios. Sin embargo, a pesar de esta aparente ventaja, no son las más utilizadas ya que resultan poco adaptables a la multiplicidad de dispositivos.
 
 
-Características de Medios (media feature)
-Cada característica de medios verifica una característica específica del navegador o dispositivo, ignorar el slash(/) al inicio de cada comando. **(COMO CONCEPTO QUE SE NECESITA PARA ENTENDER ESTO: Viewport es el área visible del usuario de un sitio web. La etiqueta meta viewport controla el ancho de la página dependiendo del dispositivo en el que se encuentre el usuario)**
-        /width:                          Anchura del viewport
-        /height:                         Altura del viewport
-        /aspect-ratio :   	             Relación de aspecto anchura-altura del viewport
-        /orientation : 	                 Orientación del viewport
-        /resolution: 	                 Densidad de pixeles del dispositivo 	
-        /scan: 	                         Proceso de escaneo del dispositivo
-        /update-frequency : 	         Qué tan rápido (si lo hace) puede el dispositivo modificar la apariencia del contenido
-        /overflow-block:                 Cómo maneja el dispositivo el contenido que excede los límites del viewport a lo largo del eje de bloque
-        /overflow-inline:                Se puede usar para probar cómo el dispositivo de salida maneja el contenido que desborda el bloque contenedor inicial a lo largo del eje en línea.
-        /color:                          Componente de número de bits por color del dispositivo, o cero si el dispositivo no es a color.
-        /color-index:                    Número de entradas en la tabla de búsqueda de color del dispositivo, o cero si el dispositivo no usa una tabla.
-        /display-mode:                   Modo de visualización de la aplicación, según se especifique en la propiedad display del manifiesto de la aplicación web.
-        /inverted-colors:                Esto creo que ni hace falta explicarlo.
-        /pointer:                        Comprueba si el usuario tiene un dispositivo de puntero (como el ratón), y si es así, cuán preciso es el dispositivo de puntero primario.
-        /hover:                          Puede ser utilizada para probar si el mecanismo de entrada primario de un usuario puede flotar sobre los elementos.
-        /any-pointer:                    Prueba si el usuario tiene algún dispositivo señalador (como un mouse) y, de ser así, qué tan preciso es.
-        /any-hover:                      Se puede usar para probar si cualquier mecanismo de entrada disponible puede pasar el mouse sobre los elementos.
-        /device-width:                   Se puede utilizar para probar el ancho de la superficie de representación de un dispositivo de salida.
-        /device-height:                  Se puede utilizar para probar la altura de la superficie de representación de un dispositivo de salida.
-        /device-aspect-ratio;            Se puede utilizar para probar la relación de aspecto ancho-alto de un dispositivo de salida.
-        /-webkit-device-pixel-ratio:     Es una función multimedia CSS booleana no estándar que es una alternativa a la función multimedia de resolución estándar.
-        /--webkit-transform-3d:          Es una extensión de WebKit cuyo valor es verdadero si se admiten las transformaciones 3D CSS prefijadas por el proveedor.
-        /-webkit-transform-2d:           Es una extensión de WebKit cuyo valor es verdadero si se admiten las transformaciones 2D CSS con prefijo del proveedor y las consultas de medios con prefijo del proveedor no estándar.
-        /--webkit-transition:           Es una extensión de WebKit cuyo valor es verdadero si el contexto de navegación admite transiciones CSS.
-        /--webkit-animation:            es una extensión de WebKit cuyo valor es verdadero si se admiten las animaciones CSS prefijadas por el proveedor.
 
-Ejemplo de @media:
 
-        @media print {
-            body { font-size: 10pt }
-        }
-        @media screen {
-            body { font-size: 13px }
-        }
-        @media screen, print {
-            body { line-height: 1.2 }
-        }
-        @media only screen
-            and (min-device-width: 320px)
-            and (max-device-width: 480px)
-            and (-webkit-min-device-pixel-ratio: 2) {
-                body { line-height: 1.4 }
-        }
+    --Unidades relativas
 
-Otro ejemplo:
-        @media print {
-        body {
-            font-size: 10pt;
-        }
-        }
+Las unidades relativas no son valores exactos sino que se calculan a partir de otro valor de referencia. A pesar de parecer más difíciles de calcular son las más utilizadas en el diseño de sitios web responsive por su adaptabilidad a los diferentes dispositivos.
 
-        @media screen {
-        body {
-            font-size: 13px;
-        }
-        }
+%: porcentaje
+em: Altura de la fuente
+rem: Root-em
+vw: Viewport width
+vh: Viewport Height
+vmin: Viewport menor, entre altura o anchura
+vmax: Viewport mayor, entre altura o anchura
+ex: anchura de la fuente para la letra "x"
+ch: la anchura del carácter "0" (cero) 
 
-        @media screen, print {
-        body {
-            line-height: 1.2;
-        }
-        }
+Porcentaje (%), es una de las unidades relativas más utilizadas. Su valor está calculado siempre en base a otro elemento. Si lo aplicamos sobre una fuente es relativo al tamaño de la fuente declarada en el contexto, pero si lo aplicamos al width de un elemento entonces es relativo al ancho de su contenedor.
 
-        @media only screen and (min-width: 320px) and (max-width: 480px) and (resolution: 150dpi) {
-        body {
-            line-height: 1.4;
-        }
-        }
-        @media (height > 600px) {
-        body {
-            line-height: 1.4;
-        }
-        }
+ 
 
-        @media (400px <= width <= 700px) {
-        body {
-            line-height: 1.4;
-        }
-        }
+
+    --Unidades relativas a la tipografía
+
+em: unidad relativa al tamaño de texto definido en un determinado contexto. El em es una unidad que proviene del diseño tipográfico y equivale al espacio que ocupa el ancho de una letra M ("m" mayúscula) de un determinado cuerpo y alfabeto. El em hace referencia al tamaño de letra que se está usando.
+Cuando se asigna una medida en ems, su referencia es el tamaño de letra del primer elemento contenedor que tenga establecido un tamaño de letra.
+<article>
+<h2> Título </h2>
+<p> Texto del párrafo </p>
+</article>
+article {font-size:18px}
+h2 {font-size: 1.5em}
+p { font-size: 0.9em}
+
+El font-size de 18px definido en el article, lo convierte en el valor de referencia para calcular la medida del h2 y del p. En este caso el <h2> equivale a 27px, y el <p> mide 16px.
+
+
+
+
+¿QUE CONVIENE USAR?:
+ Se recomienda el uso de las unidades relativas, especialmente en el diseño responsive, es conveniente conocer cómo funciona cada una de las unidades de medida y aplicarlas según convenga. Mayormente se utilizan píxeles y porcentajes para definir la estructura del documento. Por ejemplo, se puede dar medida al container usando px y aprovechar cierta flexibilidad que nos da el max-width, y definir el ancho de las columnas en porcentajes.
+
+Para los textos y para algunas medidas como padding y margin se recomienda el uso de ems. Pero puede ocurrir que necesitemos que algunos elementos queden siempre del mismo tamaño y no se deformen, entonces en esos casos podemos aplicar unidades absolutas.
+
+Nota: cuando la unidad es 0 no hace falta indicar la unidad de medida.
+-->
