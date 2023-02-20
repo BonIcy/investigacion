@@ -1,64 +1,129 @@
-<!-- 
-    UNIDADES DE MEDIDA EN CSS:
-como definicion "breve"(trato de no extenderme pero sin dejar de lado algunos detalles jaja)tenemos que las unidades se dividen en dos grupos: absolutas y relativas. Básicamente las unidades absolutas definen su valor de forma concreta y determinada, por ejemplo el centímetro. En cambio las medidas relativas lo hacen tomando otro elemeto de referencia y a veces su contexto. En el caso del porcentaje, por ejemplo, cuando se indica sobre el valor width, éste se toma respecto del elemento contenedor. Es decir que, si tengo un contenedor que mide un ancho máximo de 1000 px y dentro coloco una <div> con un ancho de 25%, esta medida se tomará respecto de los 1000 px del contenedor, por lo tanto, en principio medirá 250px, pero si el contenedor se achica se achicará también
+<!-- CSS FLEX
+Flex está especialmente diseñado para crear, mediante CSS, estructuras de una sóla dimensión.
+Conceptos
 
-    --Medidas absolutas:
+Para empezar a utilizar flex lo primero que debemos hacer es conocer algunos de los elementos básicos de este nuevo esquema, que son los siguientes:
+    Contenedor: Es el elemento padre que tendrá en su interior cada uno de los ítems flexibles. Observa que al contrario que muchas otras estructuras CSS, por norma general, en Flex establecemos las propiedades al elemento padre.
 
-Su valor se encuentra definido en términos concretos y de manera medible. Esto quiere decir que no depende de otro valor de referencia, ni del contexto.
+        Eje principal: Los contenedores flexibles tendrán una orientación principal específica. Por defecto, el eje principal del contenedor flex es en horizontal (en fila).
 
-mm: milímetros.
-cm: centímetros.
-in: pulgada ("inches", en inglés). Una pulgada equivale a 2.54 centímetros.
-pt: puntos. Un punto equivale a 1 /72 de pulgada, es decir, unos 0.35 milímetros.
-pc: picas. Una pica equivale a 12 puntos, o aproximadamente a 4.23 milímetros.
-px: pixel. Es la unidad mínima de resolución de la pantalla. En realidad suele considerársela una unidad absoluta, relativa o híbrida dependiendo del criterio que se analice.
-Si analizamos que el pixel es una división física de la pantalla podríamos decir que corresponde definirla como unidad absoluta. Sin embargo, en los diferentes dispositivos estos pixeles tienen variaciones de tamaño, que aunque son mínimas y a veces imperceptibles, dan pie a que algunos autores la consideren unidad relativa.
+        Eje secundario: De la misma forma, los contenedores flexibles tendrán una orientación secundaria, perpendicular a la principal. Si la principal es en horizontal, la secundaria será en vertical (y viceversa).
 
-La principal ventaja de las unidades absolutas es que su valor es el que está expresado y el que se va a aplicar, no hay que hacer cálculos intermedios. Sin embargo, a pesar de esta aparente ventaja, no son las más utilizadas ya que resultan poco adaptables a la multiplicidad de dispositivos.
+    Ítem: Cada uno de los hijos que tendrá el contenedor en su interior.
 
 
+En CSS, inicialmente se utilizaba el posicionamiento (static, relative, absolute...), los elementos en línea o en bloque (y derivados) o la propiedad float para realizar maquetaciones, lo que a grandes rasgos no dejaba de ser un sistema de creación de diseños bastante tosco que no encajaba con los retos que tenemos en la actualidad: sistemas de escritorio, dispositivos móviles, múltiples resoluciones, etc...
 
+Flex (también llamado flexbox) es un sistema de elementos flexibles que llega con la idea de olvidar estos mecanismos y acostumbrarnos a una mecánica más potente, limpia y personalizable, en la que los elementos HTML se adaptan y colocan automáticamente y es más fácil personalizar los diseños de una página web.
 
-    --Unidades relativas
+Modalidades de flex
+Para activar el modo flex, utilizaremos sobre el elemento contenedor la propiedad display, y especificaremos el valor flex o inline-flex (dependiendo de como queramos que se comporte el contenedor):
+    Tipo de elemento 	        Descripción
+    inline-flex 	            Establece un contenedor en línea, similar a inline-block (ocupa solo el contenido).
+    flex 	                    Establece un contenedor en bloque, similar a block (ocupa todo el ancho del padre).
+Por defecto, y sólo con esto, observaremos que los elementos se disponen todos sobre una misma línea. Esto ocurre porque estamos utilizando el modo flex y estaremos trabajando con ítems flexibles básicos, garantizando que no se desbordarán ni mostrarán los problemas que, por ejemplo, tienen los porcentajes sobre elementos que no utilizan flex.
 
-Las unidades relativas no son valores exactos sino que se calculan a partir de otro valor de referencia. A pesar de parecer más difíciles de calcular son las más utilizadas en el diseño de sitios web responsive por su adaptabilidad a los diferentes dispositivos.
+Dirección de los ejes
 
-%: porcentaje
-em: Altura de la fuente
-rem: Root-em
-vw: Viewport width
-vh: Viewport Height
-vmin: Viewport menor, entre altura o anchura
-vmax: Viewport mayor, entre altura o anchura
-ex: anchura de la fuente para la letra "x"
-ch: la anchura del carácter "0" (cero) 
+Existen dos propiedades principales para manipular la dirección y comportamiento de los ítems a lo largo del eje principal del contenedor. Son las que veremos a continuación:
 
-Porcentaje (%), es una de las unidades relativas más utilizadas. Su valor está calculado siempre en base a otro elemento. Si lo aplicamos sobre una fuente es relativo al tamaño de la fuente declarada en el contexto, pero si lo aplicamos al width de un elemento entonces es relativo al ancho de su contenedor.
+Propiedad 	                          Valor 	                                    Significado
+flex-direction 	    row | row-reverse | column | column-reverse 	    Cambia la orientación del eje principal.
 
- 
+Mediante la propiedad flex-direction podemos modificar la dirección del eje principal del contenedor para que se oriente en horizontal (valor por defecto) o en vertical. Además, también podemos incluir el sufijo -reverse para indicar que coloque los ítems en orden inverso.
+Valor 	                        Descripción
+row 	                        Establece la dirección del eje principal en horizontal.
+row-reverse 	                Establece la dirección del eje principal en horizontal invertido.
+column 	                        Establece la dirección del eje principal en vertical.
+column-reverse 	                Establece la dirección del eje principal en vertical invertido.
 
+Esto nos permite tener un control muy alto sobre el orden de los elementos en una página. Veamos la aplicación de estas propiedades sobre el ejemplo anterior, para modificar el flujo del eje principal del contenedor:
+    .container {
+        display: flex;
+        flex-direction: column;
+        background: steelblue;
+    }   
 
-    --Unidades relativas a la tipografía
+    .item {
+        background: grey;
+    }
 
-em: unidad relativa al tamaño de texto definido en un determinado contexto. El em es una unidad que proviene del diseño tipográfico y equivale al espacio que ocupa el ancho de una letra M ("m" mayúscula) de un determinado cuerpo y alfabeto. El em hace referencia al tamaño de letra que se está usando.
-Cuando se asigna una medida en ems, su referencia es el tamaño de letra del primer elemento contenedor que tenga establecido un tamaño de letra.
-<article>
-<h2> Título </h2>
-<p> Texto del párrafo </p>
-</article>
-article {font-size:18px}
-h2 {font-size: 1.5em}
-p { font-size: 0.9em}
+Contenedor flex multilínea
 
-El font-size de 18px definido en el article, lo convierte en el valor de referencia para calcular la medida del h2 y del p. En este caso el <h2> equivale a 27px, y el <p> mide 16px.
+En general, flex se suele utilizar para estructuras de una sola dimensión, es decir, contenedores que sólo van en una dirección. Sin embargo, existe una propiedad denominada flex-wrap con la que podemos especificar un comportamiento especial del contenedor.
 
+Por defecto, si un elemento no cabe dentro de nuestro contenedor flex, los elementos se harán más pequeños (son flexibles) para ajustarlos al contenedor. Este es el comportamiento por defecto de un contenedor flex. Sin embargo, con la propiedad flex-wrap podemos cambiar este comportamiento y permitir que nuestro contenedor flex se desborde, convirtiéndose en un contenedor flex multilínea.
+Propiedad 	                 Valor 	                        Significado
+flex-wrap 	    nowrap | wrap | wrap-reverse 	    Evita o permite el desbordamiento (multilinea).
 
+Los valores que puede tomar esta propiedad, son las siguientes:
+Valor 	                Descripción
+nowrap 	                Los ítems se ajustan para ocupar el tamaño del contenedor (no permite desbordamiento en múltiples líneas).
+wrap 	                Establece los ítems en modo multilínea (permite que se desborde el contenedor).
+wrap-reverse 	        Establece los ítems en modo multilínea, pero en dirección inversa.
 
+Teniendo en cuenta estos valores de la propiedad flex-wrap, podemos conseguir cosas como la siguiente:
 
-¿QUE CONVIENE USAR?:
- Se recomienda el uso de las unidades relativas, especialmente en el diseño responsive, es conveniente conocer cómo funciona cada una de las unidades de medida y aplicarlas según convenga. Mayormente se utilizan píxeles y porcentajes para definir la estructura del documento. Por ejemplo, se puede dar medida al container usando px y aprovechar cierta flexibilidad que nos da el max-width, y definir el ancho de las columnas en porcentajes.
+.container {
+  display: flex;
+    flex-wrap: wrap;
+    background: steelblue;
+    width: 200px;
+}
 
-Para los textos y para algunas medidas como padding y margin se recomienda el uso de ems. Pero puede ocurrir que necesitemos que algunos elementos queden siempre del mismo tamaño y no se deformen, entonces en esos casos podemos aplicar unidades absolutas.
+.item {
+    background: grey;
+    width: 50%;
+}
 
-Nota: cuando la unidad es 0 no hace falta indicar la unidad de medida.
+En el caso de especificar nowrap (u omitir la propiedad flex-wrap) en el contenedor, los 3 ítems se mostrarían en una misma línea del contenedor (que es el comportamiento por defecto). En ese caso, si tenemos 3 ítems, cada uno debería tener aproximadamente 66px de ancho. Un tamaño de 100px por ítem, sumaría un total de 300px, que no cabrían en el contenedor de 200px, por lo que flex reajusta los ítems flexibles para que quepan todos en la misma línea, manteniendo las mismas proporciones.
+
+Sin embargo, si especificamos wrap en la propiedad flex-wrap, lo que permitimos es que el contenedor se pueda desbordar, pasando a ser un contenedor multilínea, que mostraría los ítems que quepan en la primera linea y el resto en las líneas siguientes. El valor wrap-reverse haría exactamente lo mismo, pero con el orden inverso.
+
+Atajo: Dirección de los ejes
+
+Recuerda que existe una propiedad de atajo (short-hand) llamada flex-flow, con la que podemos resumir los valores de las propiedades flex-direction y flex-wrap, especificándolas en una sola propiedad y ahorrándonos utilizar las propiedades concretas:
+
+.container {
+  /* flex-flow: <flex-direction> <flex-wrap>; */
+  flex-flow: row wrap;
+}
+
+Huecos (gaps)
+
+Existen dos propiedades de flexbox que han surgido recientemente: row-gap y column-gap. Dichas propiedades, permiten establecer el tamaño de un «hueco» entre ítems desde el elemento padre contenedor, y que eliminan la necesidad de estar utilizando padding o margin en los elementos hijos, con las complicaciones que ello suele conllevar:
+Propiedad 	        Valor 	                Descripción
+row-gap 	    normal | SIZE	        Espacio entre filas (sólo funciona con flex-direction: column)
+column-gap 	    normal | SIZE	        Espacio entre columnas (sólo funciona con flex-direction: row)
+
+Ten en cuenta que, como flex es un sistema para diseños de una sola dimensión, sólo una de las dos propiedades tendrá efecto. Si la propiedad flex-direction está establecida en column, podrás utilizar row-gap, y en el caso de que la propiedad flex-direction se encuentre en row, podrás utilizar el column-gap.
+
+Eso sí, es posible usar ambas si tenemos la propiedad flex-wrap definida a wrap y, por lo tanto, disponemos de multicolumnas flexbox, ya que en este caso si podemos separar elementos por filas y por columnas.
+
+    Ten en cuenta que los huecos sólo se aplican entre elementos, y no entre un elemento hijo y su contenedor padre.
+
+Atajo: Huecos
+
+En Flex CSS existe una propiedad de atajo para los huecos, denominada gap. Con esta propiedad podemos indicar de una sola vez valores para las propiedades row-gap y column-gap, de forma que escribimos menos y es más cómodo en ciertas situaciones:
+Propiedad 	    Valor           	        Descripción
+gap 	        0 | SIZE	            Aplica el tamaño indicado para el hueco en ambos ejes.
+gap 	        0 0 | SIZE SIZE	        Aplica los tamaños indicados para el hueco del eje X y el eje Y.
+
+Como se puede ver, por defecto, el tamaño de los huecos es de 0, sin embargo, podemos utilizar tanto las propiedades individuales como la propiedad de atajo gap para modificar estos tamaños.
+
+A continuación, podemos ver un ejemplo de su utilización en este fragmento de código:
+
+.container {
+  /* 2 parámetros: <row> <column> */
+  gap: 4px 8px;
+  /* Equivalente a */
+  row-gap: 4px;
+  column-gap: 8px;
+
+  /* 1 parámetro: usa el mismo para ambos */
+  gap: 4px;
+  /* Equivalente a */
+  row-gap: 4px;
+  column-gap: 4px;
+}
 -->
