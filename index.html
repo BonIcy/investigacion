@@ -1,129 +1,86 @@
-<!-- CSS FLEX
-Flex está especialmente diseñado para crear, mediante CSS, estructuras de una sóla dimensión.
+<!--  CSS GRID
+Uno de los procesos más problematicos y frustrantes de CSS, sobre todo para novatos o principiantes, es el proceso de colocar y distribuir los elementos a lo largo de una página. Mecanismos como posicionamiento, floats o elementos en bloque o en línea, suelen ser insuficientes (o muy complejos) para crear un layout o estructuras para páginas web actuales.
+
 Conceptos
 
-Para empezar a utilizar flex lo primero que debemos hacer es conocer algunos de los elementos básicos de este nuevo esquema, que son los siguientes:
-    Contenedor: Es el elemento padre que tendrá en su interior cada uno de los ítems flexibles. Observa que al contrario que muchas otras estructuras CSS, por norma general, en Flex establecemos las propiedades al elemento padre.
+Para crear diseños basados en Grid CSS necesitaremos tener en cuenta una serie de conceptos que utilizaremos a partir de ahora y que definiremos a continuación:
 
-        Eje principal: Los contenedores flexibles tendrán una orientación principal específica. Por defecto, el eje principal del contenedor flex es en horizontal (en fila).
+    Contenedor: El elemento padre contenedor que definirá la cuadrícula o rejilla.
+    Ítem: Cada uno de los hijos que contiene la cuadrícula (elemento contenedor).
+    Celda (grid cell): Cada uno de los cuadritos (unidad mínima) de la cuadrícula.
+    Area (grid area): Región o conjunto de celdas de la cuadrícula.
+    Banda (grid track): Banda horizontal o vertical de celdas de la cuadrícula.
+    Línea (grid line): Separador horizontal o vertical de las celdas de la cuadrícula. 
+Modalidades de grid
 
-        Eje secundario: De la misma forma, los contenedores flexibles tendrán una orientación secundaria, perpendicular a la principal. Si la principal es en horizontal, la secundaria será en vertical (y viceversa).
+Para utilizar cuadriculas Grid CSS, trabajaremos bajo el siguiente escenario:
 
-    Ítem: Cada uno de los hijos que tendrá el contenedor en su interior.
+<div class="grid">  ///contenedor/// 
+    <div class="item item-1">Item 1</div>  ///cada uno de los ítems del grid/// 
+    <div class="item item-2">Item 2</div>
+    <div class="item item-3">Item 3</div>
+    <div class="item item-4">Item 4</div>
+  </div>
+  
+Para activar la cuadrícula grid hay que utilizar sobre el elemento contenedor la propiedad display y especificar uno de los dos valores que queramos utilizar: grid o inline-grid.
+  Tipo de elemento 	                Descripción
+  inline-grid 	        Establece una cuadrícula con ítems en línea, de forma equivalente a inline-block.
+  grid 	                Establece una cuadrícula con ítems en bloque, de forma equivalente a block.
+Definir filas y columnas
+Filas y columnas fijas
 
+En Grid CSS, la forma principal de definir una cuadrícula es indicar el tamaño de sus filas y sus columnas de forma explícita. Para ello, sólo tenemos que usar las propiedades CSS grid-template-columns y grid-template-rows:
+Propiedad 	                     Valor 	                Descripción
+grid-template-columns 	    [col1] [col2] ... 	    Establece el de cada columna (col 1, col 2...).
+grid-template-rows 	        fila1] [fila2] ... 	    Establece el de cada fila (fila 1, fila 2...).
 
-En CSS, inicialmente se utilizaba el posicionamiento (static, relative, absolute...), los elementos en línea o en bloque (y derivados) o la propiedad float para realizar maquetaciones, lo que a grandes rasgos no dejaba de ser un sistema de creación de diseños bastante tosco que no encajaba con los retos que tenemos en la actualidad: sistemas de escritorio, dispositivos móviles, múltiples resoluciones, etc...
+Conociendo estas dos propiedades, asumamos el siguiente código CSS:
 
-Flex (también llamado flexbox) es un sistema de elementos flexibles que llega con la idea de olvidar estos mecanismos y acostumbrarnos a una mecánica más potente, limpia y personalizable, en la que los elementos HTML se adaptan y colocan automáticamente y es más fácil personalizar los diseños de una página web.
+.grid {
+  display: grid;
+  grid-template-columns: 50px 300px;
+  grid-template-rows: 200px 75px;
+} 
 
-Modalidades de flex
-Para activar el modo flex, utilizaremos sobre el elemento contenedor la propiedad display, y especificaremos el valor flex o inline-flex (dependiendo de como queramos que se comporte el contenedor):
-    Tipo de elemento 	        Descripción
-    inline-flex 	            Establece un contenedor en línea, similar a inline-block (ocupa solo el contenido).
-    flex 	                    Establece un contenedor en bloque, similar a block (ocupa todo el ancho del padre).
-Por defecto, y sólo con esto, observaremos que los elementos se disponen todos sobre una misma línea. Esto ocurre porque estamos utilizando el modo flex y estaremos trabajando con ítems flexibles básicos, garantizando que no se desbordarán ni mostrarán los problemas que, por ejemplo, tienen los porcentajes sobre elementos que no utilizan flex.
+Si acostumbras a utilizar estas propiedades frecuentemente, puedes utilizar la propiedad grid-template, que sirve de atajo para muchas cosas, y una de ellas, resumir en una sola propiedad los valores que tenemos en grid-template-columns y en grid-template-rows:
+Propiedad 	                     Valores 	                                         Descripción
+grid-template 	none | grid-template-rows / grid-template-columns 	    Atajo para definir dimensiones del grid.
 
-Dirección de los ejes
+Esta propiedad convierte en un proceso bastante cómodo el crear grids de unas dimensiones concretas de forma resumida. En el caso de utilizar el valor none, las propiedades grid-template-rows, grid-template-columns y la propiedad grid-template-areas, que veremos más adelante en el tema de Grid por áreas, se establecen a sus valores por defecto, desactivando su funcionamiento.
 
-Existen dos propiedades principales para manipular la dirección y comportamiento de los ítems a lo largo del eje principal del contenedor. Son las que veremos a continuación:
+En el caso de utilizar unos valores definidos, la propiedad grid-template-areas se establecerá a none.
+Huecos en grid
 
-Propiedad 	                          Valor 	                                    Significado
-flex-direction 	    row | row-reverse | column | column-reverse 	    Cambia la orientación del eje principal.
+Por defecto, la cuadrícula tiene todas sus celdas pegadas a sus celdas contiguas. Aunque sería posible darle un margin a las celdas dentro del contenedor, existe una forma más apropiada: los huecos (gutters).
 
-Mediante la propiedad flex-direction podemos modificar la dirección del eje principal del contenedor para que se oriente en horizontal (valor por defecto) o en vertical. Además, también podemos incluir el sufijo -reverse para indicar que coloque los ítems en orden inverso.
-Valor 	                        Descripción
-row 	                        Establece la dirección del eje principal en horizontal.
-row-reverse 	                Establece la dirección del eje principal en horizontal invertido.
-column 	                        Establece la dirección del eje principal en vertical.
-column-reverse 	                Establece la dirección del eje principal en vertical invertido.
+Para especificar los huecos (espacio entre celdas) podemos utilizar las propiedades column-gap y/o row-gap. En ellas indicaremos el tamaño de dichos huecos:
+Propiedad 	                            Descripción
+column-gap 	        Establece el de los huecos entre columnas (líneas verticales).
+row-gap 	        Establece el de los huecos entre filas (líneas horizontales).
 
-Esto nos permite tener un control muy alto sobre el orden de los elementos en una página. Veamos la aplicación de estas propiedades sobre el ejemplo anterior, para modificar el flujo del eje principal del contenedor:
-    .container {
-        display: flex;
-        flex-direction: column;
-        background: steelblue;
-    }   
+Observa el siguiente grid irregular de ejemplo. No te preocupes por la estructura, más adelante veremos como hacerla. En él, le indicamos estas dos propiedades para colocar huecos entre las celdas de la cuadrícula.
 
-    .item {
-        background: grey;
-    }
+El código sería el siguiente:
 
-Contenedor flex multilínea
-
-En general, flex se suele utilizar para estructuras de una sola dimensión, es decir, contenedores que sólo van en una dirección. Sin embargo, existe una propiedad denominada flex-wrap con la que podemos especificar un comportamiento especial del contenedor.
-
-Por defecto, si un elemento no cabe dentro de nuestro contenedor flex, los elementos se harán más pequeños (son flexibles) para ajustarlos al contenedor. Este es el comportamiento por defecto de un contenedor flex. Sin embargo, con la propiedad flex-wrap podemos cambiar este comportamiento y permitir que nuestro contenedor flex se desborde, convirtiéndose en un contenedor flex multilínea.
-Propiedad 	                 Valor 	                        Significado
-flex-wrap 	    nowrap | wrap | wrap-reverse 	    Evita o permite el desbordamiento (multilinea).
-
-Los valores que puede tomar esta propiedad, son las siguientes:
-Valor 	                Descripción
-nowrap 	                Los ítems se ajustan para ocupar el tamaño del contenedor (no permite desbordamiento en múltiples líneas).
-wrap 	                Establece los ítems en modo multilínea (permite que se desborde el contenedor).
-wrap-reverse 	        Establece los ítems en modo multilínea, pero en dirección inversa.
-
-Teniendo en cuenta estos valores de la propiedad flex-wrap, podemos conseguir cosas como la siguiente:
-
-.container {
-  display: flex;
-    flex-wrap: wrap;
-    background: steelblue;
-    width: 200px;
+.grid {
+  column-gap: 100px;
+  row-gap: 10px;
 }
 
-.item {
-    background: grey;
-    width: 50%;
-}
+Atajo: Grid con huecos
 
-En el caso de especificar nowrap (u omitir la propiedad flex-wrap) en el contenedor, los 3 ítems se mostrarían en una misma línea del contenedor (que es el comportamiento por defecto). En ese caso, si tenemos 3 ítems, cada uno debería tener aproximadamente 66px de ancho. Un tamaño de 100px por ítem, sumaría un total de 300px, que no cabrían en el contenedor de 200px, por lo que flex reajusta los ítems flexibles para que quepan todos en la misma línea, manteniendo las mismas proporciones.
+De la misma forma que habrás visto en flex, existe una propiedad de atajo para las propiedades column-gap y row-gap, que nos permite la posibilidad de no tener que indicar las propiedades por separado. La propiedad en cuestión sería gap y se utilizaría de la siguiente forma:
 
-Sin embargo, si especificamos wrap en la propiedad flex-wrap, lo que permitimos es que el contenedor se pueda desbordar, pasando a ser un contenedor multilínea, que mostraría los ítems que quepan en la primera linea y el resto en las líneas siguientes. El valor wrap-reverse haría exactamente lo mismo, pero con el orden inverso.
+.grid {
+  /* gap: <row-gap> <column-gap> */
+  gap: 20px 80px;
+  /* Equivalente a... */
+  row-gap: 20px;
+  column-gap: 80px;
 
-Atajo: Dirección de los ejes
-
-Recuerda que existe una propiedad de atajo (short-hand) llamada flex-flow, con la que podemos resumir los valores de las propiedades flex-direction y flex-wrap, especificándolas en una sola propiedad y ahorrándonos utilizar las propiedades concretas:
-
-.container {
-  /* flex-flow: <flex-direction> <flex-wrap>; */
-  flex-flow: row wrap;
-}
-
-Huecos (gaps)
-
-Existen dos propiedades de flexbox que han surgido recientemente: row-gap y column-gap. Dichas propiedades, permiten establecer el tamaño de un «hueco» entre ítems desde el elemento padre contenedor, y que eliminan la necesidad de estar utilizando padding o margin en los elementos hijos, con las complicaciones que ello suele conllevar:
-Propiedad 	        Valor 	                Descripción
-row-gap 	    normal | SIZE	        Espacio entre filas (sólo funciona con flex-direction: column)
-column-gap 	    normal | SIZE	        Espacio entre columnas (sólo funciona con flex-direction: row)
-
-Ten en cuenta que, como flex es un sistema para diseños de una sola dimensión, sólo una de las dos propiedades tendrá efecto. Si la propiedad flex-direction está establecida en column, podrás utilizar row-gap, y en el caso de que la propiedad flex-direction se encuentre en row, podrás utilizar el column-gap.
-
-Eso sí, es posible usar ambas si tenemos la propiedad flex-wrap definida a wrap y, por lo tanto, disponemos de multicolumnas flexbox, ya que en este caso si podemos separar elementos por filas y por columnas.
-
-    Ten en cuenta que los huecos sólo se aplican entre elementos, y no entre un elemento hijo y su contenedor padre.
-
-Atajo: Huecos
-
-En Flex CSS existe una propiedad de atajo para los huecos, denominada gap. Con esta propiedad podemos indicar de una sola vez valores para las propiedades row-gap y column-gap, de forma que escribimos menos y es más cómodo en ciertas situaciones:
-Propiedad 	    Valor           	        Descripción
-gap 	        0 | SIZE	            Aplica el tamaño indicado para el hueco en ambos ejes.
-gap 	        0 0 | SIZE SIZE	        Aplica los tamaños indicados para el hueco del eje X y el eje Y.
-
-Como se puede ver, por defecto, el tamaño de los huecos es de 0, sin embargo, podemos utilizar tanto las propiedades individuales como la propiedad de atajo gap para modificar estos tamaños.
-
-A continuación, podemos ver un ejemplo de su utilización en este fragmento de código:
-
-.container {
-  /* 2 parámetros: <row> <column> */
-  gap: 4px 8px;
-  /* Equivalente a */
-  row-gap: 4px;
-  column-gap: 8px;
-
-  /* 1 parámetro: usa el mismo para ambos */
-  gap: 4px;
-  /* Equivalente a */
-  row-gap: 4px;
-  column-gap: 4px;
+  gap: 40px;
+  /* Equivalente a... */
+  row-gap: 40px;
+  column-gap: 40px;
 }
 -->
